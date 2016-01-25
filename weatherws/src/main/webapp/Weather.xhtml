@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jstl/core">
+
+<h:head>
+	<title>weather</title>
+	<h:outputStylesheet library="css" name="application.css"/>
+</h:head>
+<h:body>
+	<h:form>
+		<p:outputPanel id="selectCity">
+		<p:outputLabel for="city" value="Select City: " />
+		<p:selectOneMenu id="city" value="#{weatherMB.city}" style="width:160px">
+			<p:ajax event="change" listener="#{weatherMB.onCityChange}"
+				update="@form" />
+			<f:selectItem itemLabel="Select City" itemValue="#{weatherMB.city}"
+				noSelectionOption="true" />
+			<f:selectItems value="#{weatherMB.cities}" />
+		</p:selectOneMenu>
+		</p:outputPanel>
+		<p:outputPanel id="selectedPanel">
+			<table border="1" cellspacing="0" cellpadding="1">
+				<c:forEach items="#{weatherMB.map}" var="entry">
+					<tr>
+						<td><h:outputText value="#{entry.key}" /></td>
+						<td><h:outputText value="#{entry.value}" /></td>
+					</tr>
+				</c:forEach>
+			</table>
+		</p:outputPanel>
+	</h:form>
+</h:body>
+</html>

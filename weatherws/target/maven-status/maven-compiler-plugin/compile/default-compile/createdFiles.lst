@@ -1,0 +1,6 @@
+com\weather\ws\WeatherwsApplication.class
+com\weather\ws\PropertyLoader.class
+com\weather\ws\pojos\City.class
+com\weather\ws\bean\WeatherMB.class
+com\weather\ws\Constants.class
+com\weather\ws\service\WeatherService.class

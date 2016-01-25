@@ -1,0 +1,12 @@
+table.weatherdetails {
+    width: 100%;
+    border: 1px;
+    border-collapse: collapse;
+}
+table.weatherdetails th,
+table.weatherdetails td {
+    padding: 5px;
+    text-align: left;
+    font-family: Arial, Verdana, sans-serif;
+    border: 1px solid #000;
+}
