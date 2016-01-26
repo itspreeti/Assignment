@@ -26,7 +26,7 @@
 		</h:panelGrid>
 		<p:outputPanel id="selectedPanel">
 			<table border="1" cellspacing="0" cellpadding="1">
-				<c:forEach items="#{weatherMB.map}" var="entry">
+				<c:forEach items="#{weatherMB.displayMap}" var="entry">
 					<tr>
 						<td><h:outputText value="#{entry.key}" /></td>
 						<td><h:outputText value="#{entry.value}" /></td>

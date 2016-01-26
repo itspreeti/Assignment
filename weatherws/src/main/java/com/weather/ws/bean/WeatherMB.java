@@ -27,8 +27,8 @@ public class WeatherMB implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private List<City> cities;
 	private String city;
-	private Map<String, String> map;
-	private List<String> cityList;
+	private Map<String, String> displayMap;
+	
 	//private static Logger logger = LoggerFactory.getLogger(WeatherMB.class);
 
 	@ManagedProperty("#{propFileBean}")
@@ -59,28 +59,33 @@ public class WeatherMB implements Serializable {
 		this.city = city;
 	}
 
-	public Map<String, String> getMap() {
-		return map;
+	public Map<String, String> getDisplayMap() {
+		return displayMap;
 	}
 
-	public void setMap(Map<String, String> map) {
-		this.map = map;
+	public void setDisplayMap(Map<String, String> displayMap) {
+		this.displayMap = displayMap;
 	}
 
 	WeatherService weatherService=new WeatherService();
 
 	@PostConstruct
 	void init() {
-		cityList = (Arrays.asList(propFileBean.getCitiesList().split("#")));
-		cities = new ArrayList<>();
-		for (String cityName: cityList){
-			cities.add(new City(cityName));
-		}
+		populateCityList();
 		city = propFileBean.getDefaultCity();
 		try {
 			getWeatherDetailsForCity();
 		} catch (JSONException | IOException e) {
 			e.printStackTrace();
+		}
+	}
+
+	private void populateCityList() {
+		List<String> cityList;
+		cityList = (Arrays.asList(propFileBean.getCitiesList().split("#")));
+		cities = new ArrayList<>();
+		for (String cityName: cityList){
+			cities.add(new City(cityName));
 		}
 	}
 
@@ -93,7 +98,7 @@ public class WeatherMB implements Serializable {
 	}
 
 	private void getWeatherDetailsForCity() throws JSONException, IOException {
-		map=weatherService.getWeather(city,propFileBean.getAppID());
+		displayMap=weatherService.getWeather(city,propFileBean.getAppID(),propFileBean.getAppURL());
 	}
 
 

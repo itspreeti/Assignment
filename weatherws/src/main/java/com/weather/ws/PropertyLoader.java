@@ -14,8 +14,12 @@ public class PropertyLoader {
 	private String appID;
 	@Value("${defaultCity}")
 	private String defaultCity;
+	@Value("${appURL}")
+	private String appURL;
 	
-
+	public PropertyLoader() {
+	}
+	
 	public String getCitiesList() {
 		return citiesList;
 	}
@@ -24,11 +28,12 @@ public class PropertyLoader {
 		return appID;
 	}
 
-	public PropertyLoader() {
-	}
-
 	public String getDefaultCity() {
 		return defaultCity;
+	}
+
+	public String getAppURL() {
+		return appURL;
 	}
 
 }
