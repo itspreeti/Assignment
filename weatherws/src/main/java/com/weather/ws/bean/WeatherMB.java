@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -24,6 +23,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import com.weather.ws.PropertyLoader;
 import com.weather.ws.pojos.City;
 import com.weather.ws.service.WeatherService;
+import com.weather.ws.service.impl.WeatherServiceImpl;
 
 @ManagedBean
 @SessionScoped
@@ -66,17 +66,21 @@ public class WeatherMB implements Serializable {
 		this.displayMap = displayMap;
 	}
 
-
+	
 	@PostConstruct
 	void init() {
+		//Code to include autowiring capability in managed bean
 		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         ServletContext servletContext = (ServletContext) externalContext.getContext();
         WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext).
                                    getAutowireCapableBeanFactory().
                                    autowireBean(this);
-		populateCityList();
+		//populate java object for city selection drop-down
+        populateCityList();
+        //populate default city for displaying weather info
 		city = propFileBean.getDefaultCity();
 		try {
+		//get weather information for default city	
 			getWeatherDetailsForCity();
 		} catch (Exception e ) {
 			logger.error("An Exception Occurred :"+e.getMessage());
@@ -92,7 +96,10 @@ public class WeatherMB implements Serializable {
 			cities.add(new City(cityName));
 		}
 	}
-
+/**
+ * This method will be called when user makes a city selection
+ * on the UI
+ */
 	public void onCityChange(){
 		try {			
 			getWeatherDetailsForCity();
@@ -103,6 +110,7 @@ public class WeatherMB implements Serializable {
 	}
 	
 	private void getWeatherDetailsForCity() throws JSONException, IOException, Exception {
+		//Call to service class method to get weather details and populate the display map 
 		displayMap=weatherService.getWeather(city,propFileBean.getAppID(),propFileBean.getAppURL());
 	}
 

@@ -1,5 +1,8 @@
 package com.weather.ws;
 
+/**
+ * Class to define constants which are being used across project
+ */
 public class Constants {
 
 	public static final String CITY_NAME="City";
