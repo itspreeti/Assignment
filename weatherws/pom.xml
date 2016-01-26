@@ -15,7 +15,7 @@
       <url>http://www.gnu.org/licenses</url>
     </license>
   </licenses>
-  <packaging>jar</packaging>
+  <packaging>war</packaging>
   <dependencies>
     <dependency>
       <groupId>org.springframework</groupId>

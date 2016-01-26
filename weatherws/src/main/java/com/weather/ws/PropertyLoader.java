@@ -1,10 +1,6 @@
 package com.weather.ws;
 
 
-import javax.annotation.PostConstruct;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
@@ -16,7 +12,9 @@ public class PropertyLoader {
 	private String citiesList;
 	@Value("${appID}")
 	private String appID;
-	private static Logger logger = LoggerFactory.getLogger(PropertyLoader.class);
+	@Value("${defaultCity}")
+	private String defaultCity;
+	
 
 	public String getCitiesList() {
 		return citiesList;
@@ -29,9 +27,8 @@ public class PropertyLoader {
 	public PropertyLoader() {
 	}
 
-	@PostConstruct
-	public void postConstruct(){
-		logger.info("Property One: " + citiesList);
+	public String getDefaultCity() {
+		return defaultCity;
 	}
 
 }

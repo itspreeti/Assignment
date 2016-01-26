@@ -8,12 +8,13 @@
 	xmlns:c="http://java.sun.com/jstl/core">
 
 <h:head>
-	<title>weather</title>
-	<h:outputStylesheet library="css" name="application.css"/>
+	<title>Real time Weather Info</title>
 </h:head>
 <h:body>
 	<h:form>
-		<p:outputPanel id="selectCity">
+		<h1>Real-time Weather Update</h1>
+		<hr></hr>
+		<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5" id="selectCity">
 		<p:outputLabel for="city" value="Select City: " />
 		<p:selectOneMenu id="city" value="#{weatherMB.city}" style="width:160px">
 			<p:ajax event="change" listener="#{weatherMB.onCityChange}"
@@ -22,7 +23,7 @@
 				noSelectionOption="true" />
 			<f:selectItems value="#{weatherMB.cities}" />
 		</p:selectOneMenu>
-		</p:outputPanel>
+		</h:panelGrid>
 		<p:outputPanel id="selectedPanel">
 			<table border="1" cellspacing="0" cellpadding="1">
 				<c:forEach items="#{weatherMB.map}" var="entry">

@@ -9,8 +9,6 @@ public class City {
 		name=string;
 	}
 	private String name;
-	private String weather_degree;
-	private String country;
 	
 	public String toString(){
 		return name;

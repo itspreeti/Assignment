@@ -8,9 +8,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -52,8 +50,6 @@ public class WeatherService {
 	private String getWeatherFromAPI(String city, String appID) throws IOException {
 		String jsonString = null;
 
-		/*URL url = new URL(
-				"http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=2de143494c0b295cca9337e1e96b00e0");*/
 		URL url = new URL(
 				"http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid="+appID);
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
