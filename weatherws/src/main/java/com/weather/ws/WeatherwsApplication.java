@@ -10,6 +10,8 @@ import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.weather.ws.service.WeatherService;
+
 
 @Configuration
 @EnableAutoConfiguration
@@ -35,6 +37,11 @@ public class WeatherwsApplication extends SpringBootServletInitializer {
     @Bean
     public PropertyLoader propFileBean(){
     	return new PropertyLoader();
+    }
+    
+    @Bean 
+    public WeatherService weatherService(){
+    	return new WeatherService();
     }
 
 }

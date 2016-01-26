@@ -8,13 +8,18 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
 
 import org.primefaces.json.JSONException;
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.weather.ws.PropertyLoader;
 import com.weather.ws.pojos.City;
@@ -29,20 +34,14 @@ public class WeatherMB implements Serializable {
 	private String city;
 	private Map<String, String> displayMap;
 	
-	//private static Logger logger = LoggerFactory.getLogger(WeatherMB.class);
+	private static Logger logger = LoggerFactory.getLogger(WeatherMB.class);
 
-	@ManagedProperty("#{propFileBean}")
+	@Autowired
 	private PropertyLoader propFileBean;
-
-
-	public PropertyLoader getPropFileBean() {
-		return propFileBean;
-	}
-
-	public void setPropFileBean(PropertyLoader propFileBean) {
-		this.propFileBean = propFileBean;
-	}
-
+	
+	@Autowired
+	WeatherService weatherService;
+	
 	public List<City> getCities() {
 		return cities;
 	}
@@ -67,16 +66,21 @@ public class WeatherMB implements Serializable {
 		this.displayMap = displayMap;
 	}
 
-	WeatherService weatherService=new WeatherService();
 
 	@PostConstruct
 	void init() {
+		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+        ServletContext servletContext = (ServletContext) externalContext.getContext();
+        WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext).
+                                   getAutowireCapableBeanFactory().
+                                   autowireBean(this);
 		populateCityList();
 		city = propFileBean.getDefaultCity();
 		try {
 			getWeatherDetailsForCity();
-		} catch (JSONException | IOException e) {
-			e.printStackTrace();
+		} catch (Exception e ) {
+			logger.error("An Exception Occurred :"+e.getMessage());
+			addMessageOnError();
 		}
 	}
 
@@ -92,14 +96,24 @@ public class WeatherMB implements Serializable {
 	public void onCityChange(){
 		try {			
 			getWeatherDetailsForCity();
-		} catch (JSONException | IOException e) {
-			e.printStackTrace();
+		} catch (Exception e ) {
+			logger.error("An Exception Occurred :"+e.getMessage());
+			addMessageOnError();
 		}
 	}
-
-	private void getWeatherDetailsForCity() throws JSONException, IOException {
+	
+	private void getWeatherDetailsForCity() throws JSONException, IOException, Exception {
 		displayMap=weatherService.getWeather(city,propFileBean.getAppID(),propFileBean.getAppURL());
 	}
+
+	private void addMessageOnError() {
+		FacesContext facesCtx = FacesContext.getCurrentInstance();
+		facesCtx.addMessage(null, new FacesMessage("An error occurred while fetching the weather info"));
+		facesCtx.addMessage(null, new FacesMessage("Please try again later"));
+		facesCtx.addMessage(null, new FacesMessage("Contact the system administrator if the problem persists"));
+	}
+
+	
 
 
 }

@@ -21,8 +21,13 @@ import com.weather.ws.Constants;
 
 @Service
 public class WeatherService {
+	
+	
+	public WeatherService(){
+	 
+	}
 
-	public Map<String, String> getWeather(String city, String appID, String appURL) throws JSONException, IOException {
+	public Map<String, String> getWeather(String city, String appID, String appURL) throws JSONException, IOException, Exception {
 		
 		JSONObject jsonObject = parseJson(getWeatherFromAPI(city,appID,appURL));
 		
@@ -55,7 +60,7 @@ public class WeatherService {
 		return new JSONObject(jsonString);
 	}
 
-	private String getWeatherFromAPI(String city, String appID, String appURL) throws IOException {
+	private String getWeatherFromAPI(String city, String appID, String appURL) throws IOException, Exception {
 		String jsonString = null;
 		URL url = new URL(MessageFormat.format(appURL, city, appID));
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
